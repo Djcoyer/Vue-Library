@@ -2,20 +2,23 @@
  Created by dcoyer on 2/6/2018.
  -->
 <template>
-    <md-card>
+    <div class="md-layout md-gutter md-alignment-center-center" v-if="isLoading">
+        <md-progress-spinner md-mode="indeterminate" ></md-progress-spinner>
+    </div>
+    <md-card v-else-if="!isLoading && rentals.length">
         <md-card-header>
             <div class="md-title pb-0" style="padding-bottom: .2em;">
                 Current Rentals
             </div>
         </md-card-header>
         <md-card-content>
-            <md-list class="md-triple-line">
+            <md-list class="md-triple-line" v-if="!isLoading">
                 <div v-for="rental in rentals" >
-                    <md-list-item @click="navigate(rental.id)">
+                    <md-list-item @click="navigate(rental.reservationId)">
                         <div class="md-list-item-text">
                             <span class="pb-1">{{rental.title}}</span>
                             <span>{{rental.author}}</span>
-                            <p>Due Date: {{rental.dueDate}}</p>
+                            <p>Due Date: {{rental.endDate}}</p>
                         </div>
                     </md-list-item>
                     <md-divider></md-divider>
@@ -23,6 +26,9 @@
             </md-list>
         </md-card-content>
     </md-card>
+    <div class="md-layout md-gutter md-alignment-center-center" v-else>
+        <span class="md-headline">No Rentals</span>
+    </div>
 
 </template>
 
@@ -30,20 +36,7 @@
     export default {
         data() {
             return {
-                rentals: [
-                    {
-                        id: "test1",
-                        title: "The Hunger Games",
-                        author: "Suzanne Collins",
-                        dueDate: new Date().toDateString()
-                    },
-                    {
-                        id: "test2",
-                        title: "The Hunger Games: Catching Fire",
-                        author: "Suzanne Collins",
-                        dueDate: new Date().toDateString()
-                    },
-                ]
+
             }
         },
         computed: {
@@ -55,10 +48,18 @@
             }
         },
         props: {
-//            rentals: {
-//                type: Array,
-//                required: true
-//            }
+           rentals: {
+               type: Array,
+               required: true
+           },
+            navigate: {
+               type: Function,
+                required: false
+            },
+            isLoading: {
+               type: Boolean,
+                required: true
+            }
         }
     }
 </script>

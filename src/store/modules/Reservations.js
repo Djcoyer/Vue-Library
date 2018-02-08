@@ -14,29 +14,48 @@ let baseUrl = apiBaseUrl + "reservations";
  const state = {
      reservations: [],
      reservation: {},
+     userReservations: [],
      reservation_loading: false,
      reservation_error: null
  };
 
  const mutations = {
      "ADD_RESERVATION"(state) {
-         state.isLoading = true;
+         state.reservation_loading = true;
          state.reservation = {};
      },
      "ADDED_RESERVATION"(state, reservation) {
-         state.isLoading = false;
+         state.reservation_loading= false;
          eventBus.$emit(Constants.RESERVATION_ADDED, reservation.reservationId);
      },
      "RESERVATION_FAILED"(state, error) {
-         state.isLoading = false;
+         state.reservation_loading = false;
          state.reservation = null;
          state.reservation_error = error;
          eventBus.$emit(Constants.RESERVATION_FAILED);
      },
+     "GET_RESERVATION"(state, reservation) {
+         state.reservation = {};
+         state.reservation_loading= true;
+     },
      "RETRIEVED_RESERVATION"(state,reservation) {
-         state.isLoading = false;
+         state.reservation_loading= false;
          state.reservation = reservation;
          state.reservation_error = null;
+     },
+     "GET_USER_RESERVATIONS"(state) {
+         state.userReservations = [];
+         state.reservation_loading= true;
+     },
+     "RETRIEVED_USER_RESERVATIONS"(state, reservations) {
+         state.reservation_loading= false;
+         state.userReservations = reservations;
+         state.reservation_error = null;
+     },
+     "USER_RESERVATIONS_FAILED"(state,err) {
+         state.reservation_loading = false;
+         state.userReservations = [];
+         state.reservation_error = err;
      }
  };
 
@@ -46,6 +65,12 @@ let baseUrl = apiBaseUrl + "reservations";
      },
      reservationLoading(state) {
          return state.reservation_loading;
+     },
+     reservation(state) {
+         return state.reservation;
+     },
+     userReservations(state) {
+         return state.userReservations
      }
  };
 
@@ -63,13 +88,26 @@ let baseUrl = apiBaseUrl + "reservations";
 
      getReservation: ({commit}, reservationId) => {
         commit("GET_RESERVATION");
-        let url = baseUrl + "/" + reservationId;
+        let url = baseUrl + "/aggregate/" + reservationId;
         Vue.http.get(url)
             .then((response) => {
                 commit(Constants.RETRIEVED_RESERVATION, response.body);
             }).catch((err) => {
 
         })
+     },
+
+     getUserReservations: ({commit}, userId) => {
+         commit(Constants.GET_USER_RESERVATIONS);
+         let url = baseUrl + "/users/" + userId;
+
+         Vue.http.get(url)
+             .then((response) => {
+                 commit(Constants.RETRIEVED_USER_RESERVATIONS, response.body);
+             }).catch((err) => {
+                 console.log(err);
+                 commit(Constants.USER_RESERVATIONS_FAILED, err);
+         })
      }
  };
 

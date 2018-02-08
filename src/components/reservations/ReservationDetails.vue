@@ -9,21 +9,21 @@
                 </div>
             </div>
         </transition>
-        <div class="md-layout md-gutter md-alignment-center-center" v-if="reservation === null">
+        <div class="md-layout md-gutter md-alignment-center-center" v-if="reservation == null || reservation.title == null">
             <md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
         </div>
         <div v-else-if="reservation !== null">
-            <md-card>
+            <md-card style="overflow: hidden;">
                 <md-card-header>
                     <span class="md-title">
                         {{reservation.title}}
                     </span>
                 </md-card-header>
                 <md-card-content>
-                    <div class="md-layout md-gutter">
-                        <div class="md-layout-item md-size-30">
+                    <div class="md-layout md-gutter" style="max-width: 80%;">
+                        <div class="md-layout-item md-size-40">
                             <span class="md-subheading">Checkout Date:
-                                {{reservation.reservationStartDate}}
+                                {{new Date(reservation.startDate).toLocaleDateString()}}
                             </span>
                         </div>
                         <div class="md-layout-item md-size-30">
@@ -31,7 +31,7 @@
                         </div>
                         <div class="md-layout-item md-size-30">
                             <span class="md-subheading">
-                                Due Date: {{reservation.reservationEndDate}}
+                                Due Date: {{new Date(reservation.endDate).toLocaleDateString()}}
                             </span>
                         </div>
                     </div>
@@ -64,9 +64,9 @@
 
         },
 
-        data() {
-            return {
-                reservation: store.reservation
+        computed: {
+            reservation() {
+                return store.getters.reservation
             }
         }
     }

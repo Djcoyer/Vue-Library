@@ -17,6 +17,6 @@ export const routes = [
     {path: '/books', component: BookDirectory},
     {path: '/user-profile', component: UserProfile},
     {path: "/login", component: LoginPage},
-    {path: "/register", component: RegisterPage}
-    {path: "/reservations/:reservationId", component: ReservationDetails}
+    {path: "/register", component: RegisterPage},
+    {name: "reservationDetails", path: "/reservations/:reservationId", component: ReservationDetails}
 ];

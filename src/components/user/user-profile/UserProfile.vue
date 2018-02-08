@@ -7,8 +7,8 @@
         <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-30"></div>
             <div class="md-layout-item md-size-30">
-                <md-card class="md-scrollbar">
-                        <md-content class="md-primary" style="padding-top: .5em; padding-bottom:2em;">
+                <md-card style="overflow: hidden;">
+                        <md-content class="md-primary" style="padding-top: .5em; padding-bottom:2em; right:0px; left: 5px;">
                             <div class="md-layout md-gutter md-alignment-center-center">
                                 <div class="md-layout-item md-size-40 ml-2">
                                     <span class="md-headline">User Profile</span>
@@ -43,7 +43,7 @@
             </div>
             <div class="md-layout-item md-size-5"></div>
             <div class="md-layout-item md-size-25">
-                <app-rentals></app-rentals>
+                <app-rentals :rentals="reservations" :navigate="this.navigate" :is-loading="isLoading"></app-rentals>
             </div>
             <div class="md-layout-item md-size-5"></div>
         </div>
@@ -58,13 +58,23 @@
         components: {
           appRentals: CurrentRentals
         },
-        methods: {},
+        methods: {
+            navigate(reservationId) {
+                this.$router.push({name: "reservationDetails", params:{reservationId}})
+            }
+        },
         data() {
             return {}
         },
         computed: {
             user() {
                 return this.$store.getters.getUser;
+            },
+            reservations() {
+                return this.$store.getters.userReservations
+            },
+            isLoading() {
+                return this.$store.getters.reservationLoading
             }
         },
         beforeRouteEnter(to, from, next) {
@@ -72,6 +82,9 @@
                 store.dispatch('getUser');
             }
             next();
+        },
+        created() {
+            store.dispatch('getUserReservations', this.user.userId);
         }
     }
 </script>

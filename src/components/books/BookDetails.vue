@@ -100,7 +100,7 @@
         },
         created() {
             eventBus.$on(Constants.RESERVATION_ADDED, (reservationId) => {
-                this.$router.push('/reservations/' + reservationId);
+                this.$router.push({name:"reservationDetails", params:{reservationId}});
             });
             eventBus.$on(Constants.RESERVATION_FAILED, () => this.setError());
         }

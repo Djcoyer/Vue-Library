@@ -16,15 +16,7 @@
                 <md-button class="md-primary">Save</md-button>
             </md-dialog-actions>
         </md-dialog>
-        <!--<div class="row mb-2">-->
-        <!--<div class="col-sm-12">-->
-        <!--<div class="row">-->
-        <!--<div class="col-sm-3">-->
-        <!--<h3 style="display:inline;">Books</h3>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
+
         <md-table md-card v-model="books" md-sort="title" md-sort-order="asc" md-fixed-headers>
             <md-table-toolbar>
                 <div class="md-layout-item md-size-10">
