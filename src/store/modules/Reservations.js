@@ -32,6 +32,11 @@ let baseUrl = apiBaseUrl + "reservations";
          state.reservation = null;
          state.reservation_error = error;
          eventBus.$emit(Constants.RESERVATION_FAILED);
+     },
+     "RETRIEVED_RESERVATION"(state,reservation) {
+         state.isLoading = false;
+         state.reservation = reservation;
+         state.reservation_error = null;
      }
  };
 
@@ -47,8 +52,6 @@ let baseUrl = apiBaseUrl + "reservations";
  const actions = {
      addReservation: ({commit}, reservation) => {
          commit("ADD_RESERVATION");
-         console.log(apiBaseUrl);
-         console.log(baseUrl);
          Vue.http.post(baseUrl, reservation)
              .then((response) => {
                  commit("ADDED_RESERVATION", response.body);
@@ -56,6 +59,17 @@ let baseUrl = apiBaseUrl + "reservations";
             console.log(err);
             commit("RESERVATION_FAILED", err);
          });
+     },
+
+     getReservation: ({commit}, reservationId) => {
+        commit("GET_RESERVATION");
+        let url = baseUrl + "/" + reservationId;
+        Vue.http.get(url)
+            .then((response) => {
+                commit(Constants.RETRIEVED_RESERVATION, response.body);
+            }).catch((err) => {
+
+        })
      }
  };
 

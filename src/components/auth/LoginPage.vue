@@ -25,11 +25,12 @@
 
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <md-button class="md-primary float-left md-dense" @click="register()">Register</md-button>
+                                    <md-button class="md-primary float-left md-dense" to="/register">Register</md-button>
                                     <md-button class="float-right md-raised md-primary" @click="login">Login</md-button>
                                 </div>
                             </div>
                         </form>
+                        <span class="md-caption">Forgot password? <router-link to="/login">Reset</router-link></span>
                     </md-card-content>
                 </md-card>
                 </div>
@@ -40,6 +41,7 @@
 <script>
     import {eventBus} from './../../main';
     import {Constants} from './../../constants/Constants';
+
     export default {
         components: {},
         data() {
@@ -61,8 +63,6 @@
                     password: this.password
                 };
                 this.$store.dispatch('login', loginInfo);
-                this.emailAddress = "";
-                this.password = "";
             }
         },
         created() {
@@ -78,11 +78,6 @@
             //If user is authenticated before visiting
             //Redirect to user profile
             next();
-        },
-        props: {
-            register: {
-                type:Function
-            }
         }
     }
 

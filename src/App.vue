@@ -35,6 +35,9 @@
             eventBus.$on(Constants.AUTHENTICATED, () => {
                this.$store.dispatch('getUser');
             });
+            eventBus.$on(Constants.LOGGED_OUT, () => {
+                this.$router.push('/');
+            })
         }
     }
 </script>

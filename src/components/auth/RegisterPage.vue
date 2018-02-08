@@ -26,6 +26,7 @@
                                     <label>Confirm Password</label>
                                     <md-input type="password" v-model="confirmPassword" required/>
                                 </md-field>
+                                <md-checkbox v-model="user.isAdmin" class="md-primary">Admin?</md-checkbox>
                                 <md-button class="md-primary float-right" @click="next(step1,step2)">Next</md-button>
                             </md-step>
 
@@ -41,11 +42,9 @@
                                 </md-field>
                                 <md-button class="mr-0 md-primary md-dense float-right" @click="submit">Submit</md-button>
                                 <md-button class="ml-0 md-primary md-dense float-right" @click="back(step2, step1)">Previous</md-button>
-
                             </md-step>
                         </md-steppers>
-
-
+                        <span class="md-caption">Already registered? <router-link to="/login">Login</router-link></span>
                     </md-card-content>
                 </md-card>
             </div>
@@ -54,6 +53,9 @@
 </template>
 
 <script>
+    import {eventBus} from './../../main';
+    import {Constants} from "../../constants/Constants";
+
     export default {
         data() {
             return {
@@ -65,6 +67,7 @@
                 user: {
                     emailAddress: '',
                     password: '',
+                    isAdmin: false,
                     firstName: '',
                     lastName: ''
                 },
@@ -77,7 +80,7 @@
                 if(from === this.step1) {
                     let user = this.user;
                     if(user.emailAddress === "" || user.password === ""){
-                        alert("Please supply email address");
+                        alert("Please supply " + (user.emailAddress === "" ? "an email address" : "a password"));
                         return;
                     }
                     if(user.password !== this.confirmPassword){
@@ -98,11 +101,23 @@
             },
 
             submit(){
+                let user = this.user;
+                if(user.firstName === "" || user.lastName === "") {
+                    alert("Please supply " + (user.firstName === "" ? "first name" : "last name"));
+                    return;
+                }
+
+                this.$store.dispatch('registerUser', user);
 
             }
         },
         computed: {
 
+        },
+        created() {
+            eventBus.$on(Constants.REGISTERED_USER, () => {
+                this.$router.push('/login');
+            });
         }
     }
 </script>

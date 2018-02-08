@@ -46,33 +46,20 @@ const mutations = {
         localStorage.removeItem("id_token");
         state.tokens = {};
         state.isAuthenticated = false;
+        eventBus.$emit(Constants.LOGGED_OUT);
     },
     "GET_USER"(state, user) {
         state.isAuthenticated = true;
         state.user = user;
+    },
+    "REGISTERED_USER"(state) {
+        eventBus.$emit(Constants.REGISTERED_USER);
     }
 };
 
 const getters = {
-    // getToken(state) {
-    //     if (state.tokens){
-    //         return state.tokens.id_token;
-    //     }
-    //     else return null;
-    // },
+
     isAuthenticated(state) {
-        // let idToken = localStorage.getItem('id_token');
-        // if(idToken == null)
-        //     return false;
-        // var decodedToken = jwtDecode(idToken);
-        // if(state.isAuthenticated)
-        //     return true;
-        // else if(new Date().getTime() < decodedToken.exp *999.981){
-        //     {
-        //         state.isAuthenticated = true;
-        //         return true;
-        //     }
-        // }
         return state.isAuthenticated;
     },
 
@@ -137,6 +124,20 @@ const actions = {
             };
             commit("GET_USER", user);
         }
+    },
+
+    registerUser: ({commit}, user) => {
+        let data = JSON.stringify(user);
+        new Promise((resolve, reject) => {
+            Vue.http.post(apiBaseUrl + "/users", data)
+                .then((response) => {
+                    commit(Constants.REGISTERED_USER, response.body);
+                    resolve();
+                }).catch((err) => {
+               commit(Constants.REGISTER_USER_FAILED, err);
+               resolve();
+            });
+        })
     }
 };
 

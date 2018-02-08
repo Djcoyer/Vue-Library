@@ -7,6 +7,8 @@ import {routes} from './routes';
 import {sync} from 'vuex-router-sync';
 import {authFunctions} from './functions/AuthFunctions';
 import VueMaterial from 'vue-material';
+import './styles/app.css';
+import 'vue-material/dist/theme/default.css';
 
 Vue.use(VueResource);
 Vue.use(VueMaterial);

@@ -16,15 +16,6 @@
                 <label>Image URL</label>
                 <md-input id="imgSrc" v-model="imgSrc"/>
             </md-field>
-            <!--<app-text-box :id="'title'" @onChange="" labelText="Title"-->
-                          <!--:required="true" :validations="['required','alpha']"></app-text-box>-->
-            <!--<app-text-box :id="'author'" :onChange.sync="author" labelText="Author"-->
-                          <!--:required="true" :validations="['required','alpha']"></app-text-box>-->
-            <!--<app-text-box :id="'imgSrc'" :onChange.sync="imgSrc" labelText="Image URL"-->
-                          <!--:required="true" :validations="['required','url']" placeholder="http://placehold.it/50x50"></app-text-box>-->
-            <!--<md-button class="md-primary float-right mt-3" @click="setDone(step1.id, step2.id)" :disabled="!isFormValid">-->
-                <!--Next-->
-            <!--</md-button>-->
         </form>
     </md-step>
 </template>

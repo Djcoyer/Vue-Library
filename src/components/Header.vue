@@ -62,20 +62,6 @@
         </md-drawer>
 
     </div>
-
-    <!--<nav class="navbar navbar-inverse bg-inverse mb-2 navbar-toggleable-sm">-->
-        <!--<router-link class="navbar-brand" to="/">Lwolf Library</router-link>-->
-        <!--<div class="collapse navbar-collapse" id="navbarNavAltMarkup">-->
-            <!--<ul class="navbar-nav">-->
-                <!--<router-link tag="li" class="nav-item" to="/books" activeClass="active"><a class="nav-link" href="#">Books</a></router-link>-->
-                <!--<router-link tag="li" class="nav-item" to="/user-profile" activeClass="active" v-if="isAuthenticated"><a class="nav-link" href="#">Profile</a></router-link>-->
-
-                <!--<router-link tag="li" class="nav-item" to="/login" activeClass="active" v-if="!isAuthenticated"><a class="nav-link" href="#">Login</a></router-link>-->
-                <!--<li class="nav-item" style="cursor:pointer;" v-else><a class="nav-link" @click="logout">Logout</a></li>-->
-            <!--</ul>-->
-        <!--</div>-->
-    <!--</nav>-->
-
 </template>
 
 <script>

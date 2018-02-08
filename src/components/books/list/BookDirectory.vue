@@ -30,15 +30,10 @@
                 <div class="md-layout-item md-size-10">
                     <span class="md-title">Books</span>
                 </div>
-                <div class="md-layout-item md-size-90">
+                <div class="md-layout-item md-size-90" v-if="isAuthenticated">
                     <md-button class="md-raised md-dense md-primary float-right" @click="addBook">Add Book</md-button>
                 </div>
             </md-table-toolbar>
-            <!--<md-table-row>-->
-            <!--<md-table-head>Title</md-table-head>-->
-            <!--<md-table-head>Author</md-table-head>-->
-            <!--<md-table-head>Available</md-table-head>-->
-            <!--</md-table-row>-->
             <md-table-row slot="md-table-row" slot-scope="{ item }">
                 <!--<router-link tag="td" class="md-table-cell" :to="`/books/${item.bookId}`">{{item.title}}</router-link>-->
                 <md-table-cell md-label="Title" md-sort-by="title">
@@ -46,7 +41,11 @@
                     </router-link>
                 </md-table-cell>
                 <md-table-cell md-label="Author" md-sort-by="author">{{item.author}}</md-table-cell>
-                <md-table-cell md-label="Available" md-sort-by="available">{{item.available}}</md-table-cell>
+                <md-table-cell md-label="Available" md-sort-by="available">
+                    <md-icon :class="`${item.available ? 'md-primary':'md-accent'}`">
+                        {{item.available ? "check":"clear"}}
+                    </md-icon>
+                </md-table-cell>
                 <md-table-cell md-label="" v-if="isAuthenticated"><router-link :to="`/books/${item.bookId}/edit`">Edit</router-link></md-table-cell>
             </md-table-row>
         </md-table>
@@ -59,7 +58,6 @@
 </template>
 
 <script>
-    import Book from './../../../models/Book';
 
     export default {
         data() {
