@@ -19,6 +19,11 @@
                 resource: {}
             }
         },
+        computed: {
+          isAuthenticated() {
+              return this.$store.getters.isAuthenticated
+          }
+        },
         onRouteEnter() {
 
         },
@@ -26,8 +31,8 @@
             appHeader: Header
         },
         created() {
+            this.$store.dispatch('getUser');
             eventBus.$on(Constants.AUTHENTICATED, () => {
-                console.log("AUTHENTICATED");
                this.$store.dispatch('getUser');
             });
         }

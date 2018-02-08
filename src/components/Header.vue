@@ -18,13 +18,18 @@
                 </div>
 
                 <div class="md-toolbar-section-end" v-if="windowWidth > 1000">
-                    <md-tabs class="md-transparent" md-sync-router>
+                    <md-tabs class="md-transparent" md-sync-router v-show="isAuthenticated">
                         <md-tab id="tab-home" md-label="Home" to="/">
                         </md-tab>
                         <md-tab id="tab-books" md-label="Books" to="/books"></md-tab>
-                        <md-tab id="tab-profile" md-label="Profile" to="/user-profile" v-if="isAuthenticated"></md-tab>
-                        <md-tab id="tab-logout" md-label="Logout" @click="logout" v-if="isAuthenticated"></md-tab>
-                        <md-tab id="tab-login" md-label="Login" to="/login" v-else></md-tab>
+                        <md-tab id="tab-profile" md-label="Profile" to="/user-profile"></md-tab>
+                        <md-tab id="tab-logout" md-label="Logout" @click="logout"></md-tab>
+                    </md-tabs>
+                    <md-tabs class="md-transparent" md-sync-router v-show="!isAuthenticated">
+                        <md-tab id="tab-home" md-label="Home" to="/">
+                        </md-tab>
+                        <md-tab id="tab-books" md-label="Books" to="/books"></md-tab>
+                        <md-tab id="tab-login" md-label="Login" to="/login"></md-tab>
                     </md-tabs>
                 </div>
             </div>
@@ -99,7 +104,7 @@
         },
         created() {
             window.addEventListener("resize", () => {
-                alert("RESIZE")
+
             })
         }
     }

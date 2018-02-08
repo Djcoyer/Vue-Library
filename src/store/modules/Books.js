@@ -6,12 +6,11 @@ import {eventBus} from './../../main';
 
 const state = {
     books: [],
-    book: {}
+    book: null
 };
 
 const mutations = {
     "GET_BOOKS"(state, books) {
-        console.log(books);
         state.books = books;
     },
     "GET_BOOK"(state, book) {

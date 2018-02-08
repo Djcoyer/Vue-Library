@@ -1,7 +1,7 @@
 import jwtDecode from 'jwt-decode';
 import Vue from 'vue';
 import VueResource from 'vue-resource';
-import Config from './../../constants/Config';
+import {apiBaseUrl} from './../../constants/Config';
 import {eventBus} from './../../main';
 import {Constants} from './../../constants/Constants';
 
@@ -18,6 +18,7 @@ const mutations = {
     "LOGIN_USER"(state, tokens) {
         localStorage.setItem('id_token', tokens.id_token);
         let userInfo = jwtDecode(tokens.id_token);
+        console.log(userInfo);
         let customerInfo = userInfo["http://customerInfo"];
         if (customerInfo == null) return null;
         let firstName = customerInfo.firstName;
@@ -35,6 +36,7 @@ const mutations = {
         state.user = user;
         state.tokens = tokens;
         state.isAuthenticated = true;
+        console.log("HERE");
         eventBus.$emit(Constants.LOGGED_IN);
     },
     "LOGIN_FAILED"(state, err) {
@@ -53,21 +55,16 @@ const mutations = {
 
 const getters = {
     // getToken(state) {
-    //     console.log("YOOOO", state.tokens);
     //     if (state.tokens){
-    //         console.log(state.tokens.id_token);
     //         return state.tokens.id_token;
     //     }
     //     else return null;
     // },
     isAuthenticated(state) {
         // let idToken = localStorage.getItem('id_token');
-        // console.log("IsAuthenticated");
         // if(idToken == null)
         //     return false;
         // var decodedToken = jwtDecode(idToken);
-        // console.log(new Date(), new Date(decodedToken.exp *999.981));
-        // console.log(decodedToken);
         // if(state.isAuthenticated)
         //     return true;
         // else if(new Date().getTime() < decodedToken.exp *999.981){
@@ -81,6 +78,10 @@ const getters = {
 
     getUser(state) {
         return state.user;
+    },
+
+    userId(state) {
+      return state.user.userId
     }
 };
 
@@ -88,7 +89,7 @@ const actions = {
     login: ({commit}, loginInfo) => {
         let data = JSON.stringify(loginInfo);
         new Promise((resolve, reject) => {
-            Vue.http.post(Config.apiBaseUrl + "auth/login", data)
+            Vue.http.post(apiBaseUrl + "auth/login", data)
                 .then((response) => {
                     commit("LOGIN_USER", response.body);
                     resolve();
@@ -102,7 +103,7 @@ const actions = {
 
     logout: ({commit}) => {
         new Promise((resolve, reject) => {
-            Vue.http.post(Config.apiBaseUrl + "auth/logout", {}, {
+            Vue.http.post(apiBaseUrl + "auth/logout", {}, {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("id_token")
                 }
@@ -114,7 +115,6 @@ const actions = {
     },
 
     getUser: ({commit}) => {
-        console.log("GET_USER");
         let idToken = localStorage.getItem('id_token');
         if (state.user && state.user.userId) {
             return state.user;
@@ -135,7 +135,6 @@ const actions = {
                 userId,
                 email
             };
-            console.log(user);
             commit("GET_USER", user);
         }
     }

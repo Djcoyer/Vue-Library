@@ -5,6 +5,8 @@ export const Constants = {
     NOT_AUTHENTICATED: 'Not Authenticated',
     AUTHENTICATED: 'Authenticated',
     LOGGED_IN: 'Logged In',
-    LOGIN_FAILED: "Login failed"
+    LOGIN_FAILED: "Login failed",
+    RESERVATION_ADDED: "Reservation added",
+    RESERVATION_FAILED: "Reservation failed"
 
 };

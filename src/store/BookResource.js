@@ -3,9 +3,9 @@
  */
 import Vue from 'vue';
 import VueResource from 'vue-resource';
-import Config from  './../constants/Config';
+import {apiBaseUrl} from  './../constants/Config';
 
 Vue.use(VueResource);
 
 
-export const BookResource = Vue.resource(Config.apiBaseUrl + 'books');
+export const BookResource = Vue.resource(apiBaseUrl + 'books');

@@ -8,7 +8,7 @@ const awsTag = "ccclibrary-20";
 // const awsId = "096692780420";
 const awsId = "AKIAJ4H2XG3EE5CEYGVQ";
 const awsSecret = "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";
-export default {
+export  {
     apiBaseUrl,
     accessKey,
     awsTag,

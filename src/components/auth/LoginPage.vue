@@ -13,7 +13,7 @@
                         </div>
                     </md-card-header>
                     <md-card-content>
-                        <form id="loginForm" onsubmit="login">
+                        <form id="loginForm" v-on:keyup.enter="login">
                                 <md-field>
                                     <label>Email Address</label>
                                     <md-input v-model="emailAddress" required></md-input>
@@ -25,7 +25,8 @@
 
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <md-button class="float-right md-raised" @click="login">Login</md-button>
+                                    <md-button class="md-primary float-left md-dense" @click="register()">Register</md-button>
+                                    <md-button class="float-right md-raised md-primary" @click="login">Login</md-button>
                                 </div>
                             </div>
                         </form>
@@ -77,6 +78,11 @@
             //If user is authenticated before visiting
             //Redirect to user profile
             next();
+        },
+        props: {
+            register: {
+                type:Function
+            }
         }
     }
 
